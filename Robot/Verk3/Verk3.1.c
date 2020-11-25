@@ -1,3 +1,4 @@
+#pragma config(Sensor, dgtl1,  Stop,           sensorTouch)
 #pragma config(Sensor, in8,    lightSensor,    sensorReflection)
 #pragma config(Sensor, dgtl6,  sonarSensor,    sensorSONAR_cm)
 #pragma config(Motor,  port2,           leftMotor,     tmotorServoContinuousRotation, openLoop, reversed)
@@ -11,7 +12,7 @@ task main()
   int sonar_value;      // Will hold the current reading of the sonar sensor.
   int distance = 25;    // Specified distance to be at 25 centimeters.
 
-  while(true)
+  while(sensorValue[lightSensor] == 1)
   {
     sonar_value = SensorValue(sonarSensor);   // Store the current reading from the Sonar Sensor to 'sonar_value'.
 
@@ -38,6 +39,19 @@ task main()
     motor[rightMotor] = speed;                /* motors to run at 'speed'.   */
 
     wait1Msec(100);                           // Take 10 readings per second.
+    if (vexRT[Btn7R] == 1)
+    {
+        stopAllTasks();
+
+        wait1Msec(10);
+    }
+
+    if (SensorValue[Stop] == 1)
+    {
+        stopAllTasks();
+
+        wait1Msec(10);
+    }
   }
 }
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
